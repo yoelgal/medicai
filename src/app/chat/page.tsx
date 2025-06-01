@@ -1,5 +1,6 @@
 'use client';
 
+import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
@@ -15,6 +16,12 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col h-screen max-w-4xl mx-auto p-4">
+      {/* Header with theme toggle */}
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Chat</h1>
+        <ThemeToggle />
+      </div>
+
       {/* Message container */}
       <Card className="flex-1 mb-4">
         <CardContent className="h-full p-4">
