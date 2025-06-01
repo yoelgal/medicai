@@ -2,6 +2,18 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Environment Setup
+
+1. Create a `.env.local` file in the project root:
+
+```bash
+DEEPSEEK_API_KEY=your_deepseek_api_key_here
+```
+
+2. Replace `your_deepseek_api_key_here` with your actual DeepSeek API key.
+
+### Development Server
+
 First, run the development server:
 
 ```bash
@@ -19,6 +31,22 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Features
+
+- **Chat Interface**: Modern chat UI with message bubbles and input area
+- **Theme Support**: Light, dark, and system theme options
+- **shadcn/ui Components**: Beautiful, accessible UI components
+- **TypeScript**: Full type safety throughout the application
+
+## Environment Variables
+
+For production deployment on Vercel:
+
+1. Go to your Vercel dashboard
+2. Navigate to your project settings
+3. Add the following environment variable:
+   - `DEEPSEEK_API_KEY`: Your DeepSeek API key
 
 ## Learn More
 
