@@ -1,5 +1,6 @@
 'use client';
 
+import { StreamingMarkdown } from '@/components/streaming-markdown';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -9,7 +10,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 import { Bot, Send, User } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -216,16 +216,17 @@ export default function ChatPage() {
                     >
                       {message.role === 'assistant' ? (
                         message.isStreaming ? (
-                          // Show streaming content as plain text to avoid partial markdown rendering
-                          <div className="whitespace-pre-wrap font-mono text-sm">
-                            {streamingContent}
-                            <span className="animate-pulse">|</span>
-                          </div>
+                          // Show streaming markdown content with progressive rendering
+                          <StreamingMarkdown
+                            content={streamingContent}
+                            isComplete={false}
+                          />
                         ) : (
                           // Show final content as rendered markdown
-                          <div className="prose prose-sm dark:prose-invert max-w-none">
-                            <ReactMarkdown>{message.content}</ReactMarkdown>
-                          </div>
+                          <StreamingMarkdown
+                            content={message.content}
+                            isComplete={true}
+                          />
                         )
                       ) : (
                         <div className="whitespace-pre-wrap">
