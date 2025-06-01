@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import type { Components } from 'react-markdown';
 import ReactMarkdown from 'react-markdown';
 
 interface StreamingMarkdownProps {
@@ -54,41 +55,41 @@ export function StreamingMarkdown({
     return processedText;
   }, [content, isComplete]);
 
+  const components: Components = {
+    // Custom components to handle streaming states
+    code: ({ className, children, ...props }) => {
+      const isInline = !className?.includes('language-');
+
+      if (isInline) {
+        return (
+          <code className={className} {...props}>
+            {children}
+            {!isComplete && <span className="animate-pulse">|</span>}
+          </code>
+        );
+      }
+      return (
+        <pre className={className}>
+          <code>
+            {children}
+            {!isComplete && <span className="animate-pulse">|</span>}
+          </code>
+        </pre>
+      );
+    },
+    p: ({ children, ...props }) => (
+      <p {...props}>
+        {children}
+        {!isComplete && typeof children === 'string' && children.length > 0 && (
+          <span className="animate-pulse">|</span>
+        )}
+      </p>
+    ),
+  };
+
   return (
     <div className="prose prose-sm dark:prose-invert max-w-none">
-      <ReactMarkdown
-        components={{
-          // Custom components to handle streaming states
-          code: ({ node, inline, className, children, ...props }) => {
-            if (inline) {
-              return (
-                <code className={className} {...props}>
-                  {children}
-                  {!isComplete && <span className="animate-pulse">|</span>}
-                </code>
-              );
-            }
-            return (
-              <pre className={className} {...props}>
-                <code>
-                  {children}
-                  {!isComplete && <span className="animate-pulse">|</span>}
-                </code>
-              </pre>
-            );
-          },
-          p: ({ children, ...props }) => (
-            <p {...props}>
-              {children}
-              {!isComplete &&
-                typeof children === 'string' &&
-                children.length > 0 && <span className="animate-pulse">|</span>}
-            </p>
-          ),
-        }}
-      >
-        {processedContent}
-      </ReactMarkdown>
+      <ReactMarkdown components={components}>{processedContent}</ReactMarkdown>
       {!isComplete && processedContent.length === 0 && (
         <span className="animate-pulse">|</span>
       )}
